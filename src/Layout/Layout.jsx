@@ -1,11 +1,24 @@
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 // Layout Component
 export default function Layout() {
+  const { profile } = useSelector((state) => state.profile);
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!profile?.approved) {
+    return <Navigate to="/under-verification" replace />;
+  }
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {

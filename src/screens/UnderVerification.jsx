@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { fetchUserProfile } from "../../Redux/Slices/ProfileSlice";
 
 export default function UnderVerification() {
+  const { profile } = useSelector((state) => state.profile);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, []);
+
+  if (profile?.approved) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-8 text-center font-sans">
       {/* Circular Image Container */}
