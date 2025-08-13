@@ -5,6 +5,7 @@ import UnderVerification from "./screens/UnderVerification";
 import { ToastContainer } from "react-toastify";
 import Home from "./screens/Home";
 import Layout from "./Layout/Layout";
+import GoogleMapLocationPicker from "./screens/GoogleMap";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
 
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/map" element={<GoogleMapLocationPicker />} />
         </Route>
       </Routes>
     </>

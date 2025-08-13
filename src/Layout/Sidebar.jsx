@@ -6,6 +6,10 @@ const links = [
     title: "Home",
     path: "/",
   },
+  // {
+  //   title: "Map",
+  //   path: "/map",
+  // },
 ];
 
 // Sidebar Component

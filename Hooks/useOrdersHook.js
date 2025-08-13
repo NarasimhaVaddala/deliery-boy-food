@@ -39,11 +39,8 @@ export const useOrdersHook = () => {
 
   useEffect(() => {
     if (socket && orders?.length) {
-      console.log("IN IF");
-
       const intervalId = setInterval(() => {
         sendCurrentLocation(socket, orders?.[0]?._id);
-        console.log("sent");
       }, 3000);
 
       sendCurrentLocation(socket);
