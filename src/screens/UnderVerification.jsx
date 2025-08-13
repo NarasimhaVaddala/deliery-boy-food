@@ -12,6 +12,8 @@ export default function UnderVerification() {
     dispatch(fetchUserProfile());
   }, []);
 
+  console.log(profile);
+
   if (profile?.approved) {
     return <Navigate to="/" replace />;
   }

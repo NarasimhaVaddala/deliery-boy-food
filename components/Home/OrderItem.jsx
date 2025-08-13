@@ -1,7 +1,8 @@
 import { ListOrdered } from "lucide-react";
 import React from "react";
+import CustomButton from "../../../admin-panel/components/CustomButton";
 
-export default function OrderItem({ order, accept, reject }) {
+export default function OrderItem({ order, setOrderPopup, completeOrder }) {
   const { _id, user } = order;
 
   // Destructure address fields with fallbacks
@@ -17,6 +18,10 @@ export default function OrderItem({ order, accept, reject }) {
     [housenumber, street].filter(Boolean).join(", ") +
     ",\n" +
     [city, pincode].filter(Boolean).join(" ");
+
+  function CaptureImageAndCompleteOrder() {
+    // completeOrder(image)
+  }
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-5 mb-4 hover:shadow transition-shadow duration-200">
@@ -48,12 +53,16 @@ export default function OrderItem({ order, accept, reject }) {
 
       {/* Action Buttons */}
       <div className="flex space-x-3">
-        <button className="flex-1 py-2 px-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors duration-200 text-center">
-          Reject
-        </button>
-        <button className="flex-1 py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 text-center">
-          Accept
-        </button>
+        <CustomButton
+          text="View Order Details"
+          type="button"
+          onClick={() => setOrderPopup(order)}
+        />
+        <CustomButton
+          text="Complete Order"
+          type="button"
+          onClick={CaptureImageAndCompleteOrder}
+        />
       </div>
     </div>
   );
