@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { showAxiosError } from "../core/toast";
+import {
+  showAxiosError,
+  showInfoMessage,
+  showSuccessMessage,
+} from "../core/toast";
 import { API } from "../core/url";
 import { useSocket } from "../context/SocketContext";
 import { sendCurrentLocation } from "../utils/GetCurrentlocation";
@@ -22,7 +26,11 @@ export const useOrdersHook = () => {
 
   const getAllOrders = async () => {
     try {
-      const resp = await API.get("/partner/all-orders");
+      const resp = await API.get("/partner/all-orders", {
+        params: {
+          status: "accepted",
+        },
+      });
       console.log(resp.data);
 
       setOrders(resp.data, "--------------------orders");
@@ -55,10 +63,20 @@ export const useOrdersHook = () => {
     socket.on("new-delivery", ({ message, order, customer, address }) => {
       console.log("NEw deliery");
       getAllOrders();
+      showSuccessMessage("New order arrived");
+      playNotificationSound();
+    });
+    socket.on("cancel-order", (data) => {
+      console.log("NEw deliery");
+      getAllOrders();
+      showInfoMessage("Order has been cancelled");
       playNotificationSound();
     });
 
-    return () => socket.off("new-delivery");
+    return () => {
+      socket.off("new-delivery");
+      socket.off("cancel-order");
+    };
   }, [socket]);
 
   return { orders, openOrderPopup, setOrderPopup, completeOrder };
