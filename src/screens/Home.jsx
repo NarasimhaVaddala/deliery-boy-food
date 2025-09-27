@@ -4,10 +4,15 @@ import WaitingForOrders from "../../components/Home/WaitingForOrders";
 import OrderItem from "../../components/Home/OrderItem";
 import { useOrdersHook } from "../../Hooks/useOrdersHook";
 import OrderItemsModal from "../../components/Home/OrderPopup";
+import Loader from "../../components/Loader";
 
 export default function Home() {
-  const { orders, openOrderPopup, setOrderPopup, completeOrder } =
+  const { orders, openOrderPopup, setOrderPopup, completeOrder, loading } =
     useOrdersHook();
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -19,7 +24,7 @@ export default function Home() {
                 order={e}
                 key={e._id}
                 setOrderPopup={setOrderPopup}
-                completeOrder={completeOrder}
+                completeOrder={() => completeOrder(e._id)}
               />
             );
           })}

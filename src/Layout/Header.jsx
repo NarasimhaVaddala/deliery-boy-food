@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Logo } from "../../utils/Logo";
 
 // Header Component
 export default function Header({ onMenuClick, isSidebarOpen }) {
@@ -12,7 +13,8 @@ export default function Header({ onMenuClick, isSidebarOpen }) {
       >
         {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
-      <h1 className="text-xl font-semibold ml-2">Header</h1>
+      {/* <h1 className="text-xl font-semibold ml-2">Header</h1> */}
+      <Logo />
     </div>
   );
 }

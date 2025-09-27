@@ -14,6 +14,8 @@ export const useOrdersHook = () => {
   const [openOrderPopup, setOrderPopup] = useState(false);
   const [completedImage, setCompletedImage] = useState(null);
 
+  const [loading, setLoading] = useState(false);
+
   const { profile } = useSelector((state) => state.profile);
 
   const playNotificationSound = () => {
@@ -25,6 +27,7 @@ export const useOrdersHook = () => {
   const { socket } = useSocket();
 
   const getAllOrders = async () => {
+    setLoading(true);
     try {
       const resp = await API.get("/partner/all-orders", {
         params: {
@@ -33,31 +36,44 @@ export const useOrdersHook = () => {
       });
       console.log(resp.data);
 
-      setOrders(resp.data, "--------------------orders");
+      setOrders(resp.data);
     } catch (error) {
       showAxiosError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const completeOrder = () => {};
+  const completeOrder = async (id) => {
+    setLoading(true);
+    try {
+      const resp = await API.post(`/partner/complete-order/${id}`);
+      showSuccessMessage("Order Completed");
+      getAllOrders();
+    } catch (error) {
+      showAxiosError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getAllOrders();
   }, []);
 
-  useEffect(() => {
-    if (socket && orders?.length) {
-      const intervalId = setInterval(() => {
-        sendCurrentLocation(socket, orders?.[0]?._id);
-      }, 3000);
+  // useEffect(() => {
+  //   if (socket && orders?.length) {
+  //     const intervalId = setInterval(() => {
+  //       sendCurrentLocation(socket, orders?.[0]?._id);
+  //     }, 3000);
 
-      sendCurrentLocation(socket);
+  //     sendCurrentLocation(socket);
 
-      return () => {
-        clearInterval(intervalId);
-      };
-    }
-  }, [socket, orders]);
+  //     return () => {
+  //       clearInterval(intervalId);
+  //     };
+  //   }
+  // }, [socket, orders]);
 
   useEffect(() => {
     socket.on("new-delivery", ({ message, order, customer, address }) => {
@@ -79,5 +95,5 @@ export const useOrdersHook = () => {
     };
   }, [socket]);
 
-  return { orders, openOrderPopup, setOrderPopup, completeOrder };
+  return { orders, openOrderPopup, setOrderPopup, completeOrder, loading };
 };

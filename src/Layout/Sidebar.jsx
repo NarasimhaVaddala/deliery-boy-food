@@ -1,10 +1,11 @@
-import { X } from "lucide-react";
+import { Home, LogOut, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const links = [
   {
     title: "Home",
     path: "/",
+    icon: Home,
   },
   // {
   //   title: "Map",
@@ -16,12 +17,17 @@ const links = [
 export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation();
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
+
   return (
     <>
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          className="fixed inset-0 bg-[rgba(0,0,0,0.5)] bg-opacity-50 z-40 md:hidden"
           onClick={onClose}
         />
       )}
@@ -54,7 +60,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
               return (
                 <Link
-                  className={`block py-2 px-3 rounded transition-colors ${
+                  className={`py-2 px-3 rounded transition-colors flex items-center gap-4 ${
                     isActive
                       ? "bg-white text-gray-900 font-medium"
                       : "hover:bg-gray-700"
@@ -63,10 +69,19 @@ export default function Sidebar({ isOpen, onClose }) {
                   to={e.path}
                   onClick={onClose} // Close sidebar on mobile when link is clicked
                 >
+                  <e.icon size={15} />
                   {e.title}
                 </Link>
               );
             })}
+
+            <button
+              onClick={handleLogout}
+              className="cursor-pointer flex items-center gap-4 py-2 px-3 rounded transition-colors bg-red-500 text-white font-medium w-full text-start"
+            >
+              <LogOut size={15} />
+              <span>Logout</span>
+            </button>
           </nav>
         </div>
       </div>

@@ -1,6 +1,12 @@
 import axios from "axios";
 
-const url = "http://localhost:5000";
+let url;
+
+if (import.meta.env.MODE === "development") {
+  url = "http://localhost:5000";
+} else {
+  url = "https://backendchalabagundhi.nuhvin.com";
+}
 
 export const API = axios.create({
   baseURL: url,

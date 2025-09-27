@@ -65,7 +65,7 @@ export default function SignUp() {
             label={"Add aadhar card"}
             placeholder={"password"}
             type={"file"}
-            accept={".jpg,.jpeg,.pdf"}
+            accept={".jpg,.jpeg"}
           />
           <CustomInput
             errors={errors}
@@ -74,7 +74,7 @@ export default function SignUp() {
             label={"Add Driving License"}
             placeholder={"password"}
             type={"file"}
-            accept={".jpg,.jpeg,.pdf"}
+            accept={".jpg,.jpeg"}
           />
 
           <CustomButton />

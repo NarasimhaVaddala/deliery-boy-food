@@ -1,9 +1,11 @@
 import { ListOrdered } from "lucide-react";
 import React from "react";
 import CustomButton from "../../../admin-panel/components/CustomButton";
+import { showAxiosError } from "../../core/toast";
+import { API } from "../../core/url";
 
 export default function OrderItem({ order, setOrderPopup, completeOrder }) {
-  const { _id, user } = order;
+  const { _id, user, address } = order;
 
   // Destructure address fields with fallbacks
   const {
@@ -11,17 +13,13 @@ export default function OrderItem({ order, setOrderPopup, completeOrder }) {
     street = "",
     city = "",
     pincode = "",
-  } = user?.address || {};
+  } = address || {};
 
   // Construct full address line
   const fullAddress =
     [housenumber, street].filter(Boolean).join(", ") +
     ",\n" +
     [city, pincode].filter(Boolean).join(" ");
-
-  function CaptureImageAndCompleteOrder() {
-    // completeOrder(image)
-  }
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-5 mb-4 hover:shadow transition-shadow duration-200">
@@ -45,11 +43,11 @@ export default function OrderItem({ order, setOrderPopup, completeOrder }) {
       </div>
 
       {/* Distance & ETA (can be dynamic later) */}
-      <div className="flex items-center gap-2 text-sm text-blue-600 mb-4">
+      {/* <div className="flex items-center gap-2 text-sm text-blue-600 mb-4">
         <ListOrdered />
         {order.distance ? `${order.distance}` : ""} away •{" "}
         {order.eta ? `${order.eta} min` : ""} drive
-      </div>
+      </div> */}
 
       {/* Action Buttons */}
       <div className="flex space-x-3">
@@ -61,7 +59,7 @@ export default function OrderItem({ order, setOrderPopup, completeOrder }) {
         <CustomButton
           text="Complete Order"
           type="button"
-          onClick={CaptureImageAndCompleteOrder}
+          onClick={completeOrder}
         />
       </div>
     </div>
