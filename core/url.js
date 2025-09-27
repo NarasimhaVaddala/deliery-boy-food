@@ -5,7 +5,7 @@ let url;
 if (import.meta.env.MODE === "development") {
   url = "http://localhost:5000";
 } else {
-  url = "https://backendchalabagundhi.nuhvin.com";
+  url = "https://backend.chaalabagundhi.com";
 }
 
 export const API = axios.create({
